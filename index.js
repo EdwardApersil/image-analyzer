@@ -1,10 +1,11 @@
 import pkg from 'fast-glob';
 const { globSync } = pkg;
 import { parse } from '@babel/parser';
-import traverse from '@babel/traverse';
 import sharp from 'sharp';
 import chalk from 'chalk';
 import fs from 'fs';
+import _traverse from '@babel/traverse';
+const traverse = _traverse.default;
 
 // Scan for React and image files
 const scanFiles = (projectPath) => {
@@ -28,7 +29,7 @@ const analyzeReact = (filePaths) => {
                 sourceType: 'module',
                 plugins: ['jsx', 'typescript', 'tsx']
             });
-            
+
             traverse.default(ast, {
                 JSXElement(path) {
                     const nodeName = path.node.openingElement.name.name;
@@ -105,6 +106,10 @@ const runAnalysis = async (projectPath) => {
         const { reactFiles, imageFiles } = scanFiles(projectPath);
         console.log(chalk.blue(`Found ${reactFiles.length} React files and ${imageFiles.length} images`));
 
+        if (reactFiles.length === 0) {
+            console.log(chalk.yellow('⚠️ No React files found'));
+            return;
+        }
         // Run analyses
         const accessibilityIssues = analyzeReact(reactFiles);
         const imageAnalysis = await imageAnalyzer(imageFiles);
@@ -112,9 +117,11 @@ const runAnalysis = async (projectPath) => {
         // Generate report
         generateReport(accessibilityIssues, imageAnalysis);
     } catch (error) {
-        console.error('Error running analysis:', error);
+        console.error(chalk.red('❌ Analysis failed:'), error);
+        process.exit(1);
     }
 };
+
 
 // Run the analysis when this file is executed directly
 if (process.argv[2]) {
