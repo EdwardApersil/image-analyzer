@@ -18,6 +18,9 @@
     "fast-glob": "^3.3.3",
     "sharp": "^0.33.5"
   },
+  "bin": {
+    "react-image-analyzer": "./cli.js"
+  },
   "devDependencies": {},
   "repository": {
     "type": "git",
