@@ -90,7 +90,7 @@ const generateReport = (issues, imageData) => {
     } else {
         imageData.forEach((img) => {
             const sizeMB = (img.size / 1024 / 1024).toFixed(2);
-            const isOversized = img.size > 500 * 1024; // 500KB threshold
+            const isOversized = img.size > 500 * 1024; 
             console.log(
                 isOversized ? chalk.yellow('⚠️') : chalk.green('✅'),
                 `${img.path}: ${img.width}x${img.height} (${sizeMB}MB, ${img.format})`
