@@ -123,11 +123,15 @@ const runAnalysis = async (projectPath) => {
 };
 
 
+import { pathToFileURL } from 'url';
+
 // Run the analysis when this file is executed directly
-if (process.argv[2]) {
-    runAnalysis(process.argv[2]);
-} else {
-    runAnalysis('./'); // Default to current directory
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+    if (process.argv[2]) {
+        runAnalysis(process.argv[2]);
+    } else {
+        runAnalysis('./'); // Default to current directory
+    }
 }
 
 // Export functions for testing

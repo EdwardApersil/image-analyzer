@@ -1,4 +1,4 @@
-import { runAnalysis } from "./index";
+import { runAnalysis } from "./index.js";
 import { program } from 'commander';
 
 program
