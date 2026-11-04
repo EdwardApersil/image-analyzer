@@ -30,7 +30,7 @@ const analyzeReact = (filePaths) => {
                 plugins: ['jsx', 'typescript', 'tsx']
             });
 
-            traverse.default(ast, {
+            traverse(ast, {
                 JSXElement(path) {
                     const nodeName = path.node.openingElement.name.name;
                     if (nodeName === 'img') {
